@@ -23,7 +23,7 @@ instance : Append (MyList α) where
 @[simp]
 theorem MyList.nil_append (xs : MyList α) :
     [] ++ xs = xs := by
-  sorry
+  rfl
 
 @[simp]
 theorem MyList.cons_append (x : α) (xs ys : MyList α) :
@@ -32,8 +32,10 @@ theorem MyList.cons_append (x : α) (xs ys : MyList α) :
 
 @[simp]
 theorem MyList.append_nil (xs : MyList α) :
-    xs ++ [] = xs := by
-  sorry
+    xs ++ [] = xs :=
+      match xs with
+      | [] => by dsimp
+      | x :: xs' => MyList.append_nil
 
 theorem MyList.append_assoc (xs ys zs : MyList α) :
     (xs ++ ys) ++ zs = xs ++ (ys ++ zs) := by

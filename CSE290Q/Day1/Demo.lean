@@ -19,6 +19,11 @@ def factorial (n : Nat) : Nat :=
 #eval List.range 10 |>.map factorial
 
 
+@[builtin_command_parser] def check          := leading_parser
+  "#check " >> termParser
+
+#check Syntax
+
 /-!
 ## Lean as a proof assistant
 -/
