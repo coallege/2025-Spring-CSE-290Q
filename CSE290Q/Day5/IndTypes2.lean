@@ -44,7 +44,7 @@ MyVect.cons.{u} {α : Type u} (x : α) {n : ℕ} (xs : MyVect.{u} α n) :
 #check MyVect.rec
 /-
 MyVect.rec.{v, u} {α : Type u}
-  {motive : (a : Nat) → MyVect.{u} α a → Sort v}
+  {motive : (N : Nat) → MyVect.{u} α N → Sort v}
   (nil : motive 0 MyVect.nil.{u})
   (cons : (x : α) → {n : Nat} → (xs : MyVect.{u} α n) →
     motive n xs → motive (n + 1) (MyVect.cons.{u} x xs))
@@ -59,22 +59,29 @@ compile_inductive% MyVect
 
 -- use `match`
 def MyVect.isNil {α : Type u} {n : Nat} (v : MyVect α n) : Bool :=
-  sorry
+  match v with
+  | nil => true
+  | _ => false
 
 -- use `MyVect.rec`
 def MyVect.isNil' {α : Type u} {n : Nat} (v : MyVect α n) : Bool :=
-  sorry
+  MyVect.rec true (fun _ _ _ _ => false) v
 
 -- use `match`
 def MyVect.append {α : Type u} {m n : Nat}
-    (w : MyVect α m) (v : MyVect α n) : MyVect α (m + n) :=
-  sorry
+    (w : MyVect α m) (v : MyVect α n) : MyVect α (n + m) :=
+  match w with
+  | nil => v
+  | cons x xs => cons x (MyVect.append xs v)
 
 -- use `MyVect.rec`
 def MyVect.append' {α : Type u} {m n : Nat}
-    (w : MyVect α m) (v : MyVect α n) : MyVect α (m + n) :=
-  sorry
-
+    (w : MyVect α m) (v : MyVect α n) : MyVect α (n + m) :=
+  MyVect.rec
+    (motive := fun m' _ => MyVect α (n + m'))
+    (nil := v)
+    (cons := fun x _ _ prev => cons x prev)
+    w
 
 /-!
 ## Prop inductives
@@ -86,8 +93,7 @@ inductive IsEven : Nat → Prop where
   | zero : IsEven 0
   | add_two (n : Nat) : IsEven (n + 2)
 
-theorem IsEven.two : IsEven 2 := by
-  sorry
+theorem IsEven.two : IsEven 2 := add_two 0
 
 theorem isEven_iff_exists (n : Nat) : IsEven n ↔ ∃ k, n = 2 * k := by
   sorry

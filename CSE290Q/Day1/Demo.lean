@@ -21,15 +21,14 @@ def factorial (n : Nat) : Nat :=
 
 #eval List.range 10 |>.map factorial
 
-
-@[builtin_command_parser] def check          := leading_parser
-  "#check " >> termParser
-
-#check Syntax
-
 /-!
 ## Lean as a proof assistant
 -/
+
+theorem foo : factorial 1 = 1 := by
+  unfold factorial
+  unfold factorial
+  rw [Nat.mul_one]
 
 theorem factorial_one_eq : factorial 1 = 1 := by
   unfold factorial
@@ -42,7 +41,9 @@ theorem factorial_one_eq' : factorial 1 = 1 := by trivial
 
 theorem factorial_pos (n : Nat) : 0 < factorial n := by
   induction n with
-  | zero => simp [factorial]
+  | zero =>
+    unfold factorial
+    simp
   | succ n ih =>
     unfold factorial
     rw [Nat.add_mul, Nat.one_mul]

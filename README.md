@@ -1,6 +1,6 @@
 # CSE 290Q - Adventures in Lean
 
-This is a repository to organize materials for the Spring 2025 offering of CSE 290Q, which focuses on interactive theorem provers, with a strong focus on [Lean](https://lean-lang.org/).
+This is a repository to organize materials for the Spring 2025 offering of CSE 290Q at UC Santa Cruz, which focuses on interactive theorem provers in [Lean](https://lean-lang.org/).
 
 How to get started:
 1. https://docs.lean-lang.org/lean4/doc/quickstart.html
