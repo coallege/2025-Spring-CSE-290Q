@@ -7,6 +7,9 @@ import Lean
 ## Lean as a functional programming language
 -/
 
+#check id $ 1
+#check Type
+
 set_option pp.fieldNotation false
 
 def factorial (n : Nat) : Nat :=
