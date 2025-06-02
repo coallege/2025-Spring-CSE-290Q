@@ -26,7 +26,15 @@ Exercise: make `my_swap`, which swaps the first two goals.
 -/
 
 elab "my_swap" : tactic => do
-  sorry
+  let x := <-popMainGoal
+  let y := <-popMainGoal
+  pushGoal x
+  pushGoal y
+
+elab "my_swap2" : tactic => do
+  let x::y::r<-getUnsolvedGoals
+    |failure
+  setGoals
 
 -- Test
 example {p q : Prop} (hp : p) (hq : q) : p ∧ q := by
@@ -40,7 +48,7 @@ Exercise: make `defer`, which moves the first goal to the end.
 -/
 
 elab "defer" : tactic => do
-  sorry
+  appendGoals [<-popMainGoal]
 
 example : ∃ n : Nat, n = n ∧ n ≤ n + 1 := by
   refine ⟨?n, ?_, ?_⟩
