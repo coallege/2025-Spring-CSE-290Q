@@ -40,10 +40,17 @@ example (p q r s : Prop) (h : p → r) (h' : q → s) : p ∧ q → r ∧ s := b
 /- You can choose your own style in the next exercise. -/
 
 example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
-  sorry
+  constructor
+  · intro pqr pq
+    exact pqr pq.1 pq.2
+  · intro pqr p q
+    apply pqr
+    apply And.intro ?_ ?_
+    assumption
+    assumption
 }
 
-/- Of course Lean doesn't need any help to prove this kind of logical tautologies.
+/- Of course Lean doesn't need any help to prove this kiZd of logical tautologies.
 This is the job of the `tauto` tactic, which can prove true statements in propositional logic. -/
 example (p q r : Prop) : (p → (q → r)) ↔ p ∧ q → r := by {
   tauto

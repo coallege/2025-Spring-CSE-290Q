@@ -118,7 +118,7 @@ example {a b : ℝ} (c : ℝ) : a + c ≤ b + c ↔ a ≤ b := by {
   rw [← sub_nonneg]
   have key : (b + c) - (a + c) = b - a := by ring
   rw [key]
-  rw [sub_nonn]
+  rw [sub_nonneg]
 }
 
 /-
@@ -156,7 +156,9 @@ example {a b : ℝ}  (ha : 0 ≤ a) : b ≤ a + b := by {
 /- Let's do a variant using `add_le_add_iff_left a : a + b ≤ a + c ↔ b ≤ c` instead. -/
 
 example (a b : ℝ) (hb : 0 ≤ b) : a ≤ a + b := by {
-  sorry
+  calc
+    a = a + 0 := by ring
+    _ ≤ a + b := (add_le_add_iff_left a).2 hb
 }
 
 /-
@@ -187,7 +189,19 @@ example (a b : ℝ) : (a-b)*(a+b) = 0 ↔ a^2 = b^2 := by {
 /- You can try it yourself in this exercise. -/
 
 example (a b : ℝ) : a = b ↔ b - a = 0 := by {
-  sorry
+  constructor
+  · intro h
+    rw [h]
+    ring
+  · intro h
+    -- With help from Cassie
+    have blarg : b - a + a = a := by
+      calc
+        b - a + a = b - 0       - a + a := by ring
+                _ = b - (b - a) - a + a := by rw [h]
+                _ = a                   := by ring
+    rw [← blarg]
+    ring
 }
 
 /-
